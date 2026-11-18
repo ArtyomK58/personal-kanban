@@ -1,0 +1,32 @@
+# Production service on the VPS. Installed as /opt/personal-kanban/compose.yaml by deploy.sh.
+# The app listens on loopback only; the public side is Caddy (HTTPS) → 127.0.0.1:${KANBAN_PORT}.
+name: personal-kanban-prod
+services:
+  kanban:
+    image: personal-kanban:${KANBAN_IMAGE_TAG:?set KANBAN_IMAGE_TAG}
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:${KANBAN_PORT:-18490}:8080"
+    environment:
+      COOKIE_SECURE: "1"
+      # Only the local proxy hop may set X-Forwarded-For (Caddy on the host reaches the container through
+      # the Docker bridge / loopback). Client-supplied headers from the Internet never reach the app unfiltered:
+      # Caddy overwrites X-Forwarded-For with the real peer address.
+      TRUST_PROXY: "loopback,uniquelocal"
+    volumes:
+      - data:/data
+    read_only: true
+    tmpfs:
+      - /tmp
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    logging:
+      driver: json-file
+      options: { max-size: "10m", max-file: "3" }
+volumes:
+  data:
+    # Created once outside Compose so `docker compose down -v` can never delete the board.
+    external: true
+    name: personal-kanban-prod-data

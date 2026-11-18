@@ -1,0 +1,15 @@
+node_modules/
+dist/
+data/
+*.db
+*.db-*
+.env
+.env.*
+!.env.example
+bootstrap-token.txt
+.tools/
+artifacts/
+__pycache__/
+*.py[cod]
+.DS_Store
+.venv/

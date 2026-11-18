@@ -1,0 +1,11 @@
+interface:
+  display_name: "Личный канбан"
+  short_description: "Задачи, эпики и заметки агентов на своей доске"
+  default_prompt: "Используй $personal-kanban, чтобы показать открытые задачи нужного проекта на моей доске."
+dependencies:
+  tools:
+    - type: "mcp"
+      value: "personal-kanban"
+      description: "MCP вашей доски Personal Kanban"
+policy:
+  allow_implicit_invocation: true

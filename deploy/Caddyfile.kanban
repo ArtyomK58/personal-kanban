@@ -1,0 +1,25 @@
+# Personal Kanban: replace the example hostname with your own.
+kanban.example.com {
+	header {
+		Strict-Transport-Security "max-age=31536000"
+		-Server
+		-Via
+	}
+	# No compression for text/event-stream (SSE must stream unbuffered).
+	encode {
+		gzip
+		match {
+			header Content-Type text/html*
+			header Content-Type text/css*
+			header Content-Type application/javascript*
+			header Content-Type application/json*
+			header Content-Type image/svg+xml*
+		}
+	}
+	reverse_proxy 127.0.0.1:18490 {
+		# Overwrite whatever the client sent: the app trusts only this hop for the client address.
+		header_up X-Forwarded-For {remote_host}
+		header_up -X-Real-IP
+		flush_interval -1
+	}
+}

@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "kanban-stdio": {
+      "type": "stdio",
+      "command": "ssh",
+      "args": ["your-server", "cd /opt/personal-kanban && docker compose exec -T -e MCP_AGENT_NAME=claude kanban node dist/server/mcp-stdio.js"]
+    }
+  }
+}

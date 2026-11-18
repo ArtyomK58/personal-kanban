@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "kanban": {
+      "command": "npx",
+      "args": ["-y", "mcp-remote", "http://127.0.0.1:8080/mcp", "--header", "Authorization:Bearer ${KANBAN_TOKEN}"],
+      "env": { "KANBAN_TOKEN": "pk_…put-your-agent-token-here…" }
+    }
+  }
+}
